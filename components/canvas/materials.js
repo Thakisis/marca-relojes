@@ -7,7 +7,7 @@ export function createMaterials(materials) {
 		envMapIntensity: 1.2,
 	});
 	const rolexGold = new THREE.MeshPhysicalMaterial({
-		color: new THREE.Color(0.944, 0.776, 0.373), // Warmer rose gold color to match Rolex Everose gold
+color: new THREE.Color(0xe0875e),
 		metalness: 1,
 		roughness: 0.0,
 		envMapIntensity: 1.2,
@@ -31,9 +31,18 @@ export function createMaterials(materials) {
 		roughness: 0.3,
 		envMapIntensity: 1.0,
 	});
+	const MarkerFluor= new THREE.MeshPhysicalMaterial({
+		color: new THREE.Color(0xffffffff),
+		metalness:0,
+		roughness:1,
+	})
 
 	const rolexFind = new THREE.MeshBasicMaterial({
 		color: new THREE.Color(0x00ff00),
 	});
+	//materials['Gold Rose 18K'] = rolexGold;
+	//materials['Platinum polished'] = rolexGold2;
+	materials['markerFluor'] = MarkerFluor;
+	console.log(materials)
 	return materials;
 }
