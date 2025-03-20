@@ -2,12 +2,13 @@ import React, { Suspense, useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { CameraControls, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Environment } from '@react-three/drei';
-import { Daytona } from './Daytona';
+import useAsteriumStore from '@/store';
 import * as THREE from 'three';
-import { SilkPlane } from './Silkbg';
+
 function Canvas3d({ }) {
     const ccRef = React.useRef(null);
     const mouse = useRef(new THREE.Vector3());
+    const setCanvasReady = useAsteriumStore((state) => state.Actions.setCanvasReady);
     React.useEffect(() => {
         const cc = ccRef.current;
         console.log(cc);
@@ -25,7 +26,9 @@ function Canvas3d({ }) {
 
 
     return (
-        <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }} onMouseMove={onMouseMove}>
+        <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }} onMouseMove={onMouseMove}
+            onCreated={setCanvasReady}
+        >
 
             <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={50} />
 
@@ -33,7 +36,7 @@ function Canvas3d({ }) {
 
 
             <Suspense fallback={null}>
-                <Daytona scale={.35} rotation={[Math.PI / 2, 0, 0]} />
+
                 <Environment files='/grey1.exr' environmentRotation={[0, Math.PI, Math.PI / 2]}
                     environmentIntensity={1}
                 />
