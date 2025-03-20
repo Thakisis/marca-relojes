@@ -1,30 +1,101 @@
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import React, { Suspense, useRef, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { CameraControls, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Environment } from '@react-three/drei';
 import { Daytona } from './Daytona';
 import * as THREE from 'three';
+import { SilkPlane } from './Silkbg';
 function Canvas3d({ }) {
+    const ccRef = React.useRef(null);
+    const mouse = useRef(new THREE.Vector3());
+    React.useEffect(() => {
+        const cc = ccRef.current;
+        console.log(cc);
+        console.log(cc);
 
+    }, []);
+    const onMouseMove = (event) => {
+        const { clientX, clientY } = event;
+        mouse.current.set(
+            (clientX / window.innerWidth) * 2 - 1,
+            -(clientY / window.innerHeight) * 2 + 1,
+            0
+        );
+    };
 
 
     return (
-        <Canvas flat={THREE.ACESFilmicToneMapping} dpr={[1, 2]}>
+        <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }} onMouseMove={onMouseMove}>
 
             <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={50} />
 
 
 
+
             <Suspense fallback={null}>
-                <Daytona scale={1.4} position={[15, 0, -20]} rotation={[Math.PI / 2, 0, Math.PI / 4.5]} />
+                <Daytona scale={.35} rotation={[Math.PI / 2, 0, 0]} />
                 <Environment files='/grey1.exr' environmentRotation={[0, Math.PI, Math.PI / 2]}
-                    environmentIntensity={5}
+                    environmentIntensity={1}
                 />
             </Suspense>
-            <CameraControls />
+
 
         </Canvas>
     );
 }
 
 export default Canvas3d;
+
+
+function Trail({ mouse }) {
+    const trail = useRef();
+    const points = useMemo(() => new Array(50).fill().map(() => new THREE.Vector3()), []);
+    const sizes = useMemo(() => new Array(50).fill().map(() => 0), []);
+
+    useFrame(() => {
+        // Update current mouse position
+        points[0].copy(mouse.current);
+        sizes[0] = 0.1;
+
+        // Update trail points
+        for (let i = points.length - 1; i > 0; i--) {
+            points[i].lerp(points[i - 1], 0.9);
+            // Evolve thickness (starts small, grows, then fades)
+            sizes[i] = sizes[i - 1] * 0.95 + (i / points.length) * 0.05;
+        }
+
+        // Update line geometry
+        trail.current.geometry.setFromPoints(points);
+        trail.current.geometry.attributes.size.array.set(sizes);
+        trail.current.geometry.attributes.size.needsUpdate = true;
+        trail.current.geometry.attributes.position.needsUpdate = true;
+    });
+
+    const sizesArray = useMemo(() => new Float32Array(sizes), []);
+
+    return (
+        <line>
+            <bufferGeometry ref={trail}>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={points.length}
+                    array={new Float32Array(points.length * 3)}
+                    itemSize={3}
+                />
+                <bufferAttribute
+                    attach="attributes-size"
+                    count={sizes.length}
+                    array={sizesArray}
+                    itemSize={1}
+                />
+            </bufferGeometry>
+            <lineBasicMaterial
+                color="#ffd700"
+                linewidth={2}
+                transparent
+                opacity={0.8}
+                vertexColors={false}
+            />
+        </line>
+    );
+}

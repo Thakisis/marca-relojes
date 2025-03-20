@@ -1,15 +1,15 @@
-import Image from "next/image";
-
-
+import { HeroIndex } from "@/components/Hero";
+import { Section } from "@/components/section";
+import { Geist, Geist_Mono, Fraunces } from "./fonts";
 export default function Home() {
-	
 	return (
-		<div className="flex min-h-screen items-center font-[family-name:var(--font-geist-sans)] bg-black">
-			<main className="flex w-1/2 h-screen justify-center items-center ">
-				<h1 className="text-[8rem] text-white">ASTERIUM</h1>
-
-			</main>
-			
+		<div className="min-h-screen font-[family-name:var(--font-geist-sans)] bg-black">
+			<HeroIndex />
+			<div>
+				<Section></Section>
+				<Section></Section>
+				<Section></Section>
+			</div>
 		</div>
 	);
 }
