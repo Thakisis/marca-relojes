@@ -4,6 +4,7 @@ import { CameraControls, OrthographicCamera, PerspectiveCamera } from '@react-th
 import { Environment } from '@react-three/drei';
 import useAsteriumStore from '@/store';
 import * as THREE from 'three';
+import { Daytona } from '../objects3d/daytona';
 
 function Canvas3d({ }) {
     const ccRef = React.useRef(null);
@@ -11,8 +12,7 @@ function Canvas3d({ }) {
     const setCanvasReady = useAsteriumStore((state) => state.Actions.setCanvasReady);
     React.useEffect(() => {
         const cc = ccRef.current;
-        console.log(cc);
-        console.log(cc);
+
 
     }, []);
     const onMouseMove = (event) => {
@@ -31,7 +31,7 @@ function Canvas3d({ }) {
         >
 
             <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={50} />
-
+            <Daytona />
 
 
 

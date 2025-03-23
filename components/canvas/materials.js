@@ -51,6 +51,6 @@ export function createMaterials(materials) {
 	//materials['Gold Rose 18K'] = rolexGold;
 	//materials['Platinum polished'] = rolexGold2;
 	materials["markerFluor"] = MarkerFluor;
-	console.log(materials);
+
 	return materials;
 }
