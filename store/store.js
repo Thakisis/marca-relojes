@@ -64,7 +64,7 @@ const useAsteriumStore = create((set, get) => ({
 			}, {});
 
 			set({ preloadModels: modelsToLoad });
-
+			console.log(get().preloadModels);
 			set({
 				preloading: {
 					isLoading: true,
@@ -72,6 +72,7 @@ const useAsteriumStore = create((set, get) => ({
 					sizeLoaded: 0,
 					filesToLoad: totalFiles,
 					filesLoaded: 0,
+					percent:0,
 				},
 			});
 
@@ -99,10 +100,12 @@ const useAsteriumStore = create((set, get) => ({
 				(total, { loaded }) => total + loaded,
 				0
 			);
-
+			
+			
 			set({ preloadModels: newPreloadModels });
-
-			set(({ preloading }) => ({ preloading: { ...preloading, sizeLoaded } }));
+			
+			set(({ preloading }) => ({ preloading: { ...preloading, sizeLoaded,percent: Math.floor((sizeLoaded / preloading.sizeToLoad) * 100) } }));
+			
 		},
 		onCompleteLoad({
 			name,
@@ -112,12 +115,18 @@ const useAsteriumStore = create((set, get) => ({
 			textures: newTextures,
 			materials: newMaterials,
 		}) {
-			console.log(nodes);
+			set(({preloadModels})=> ({preloadModels:{...preloadModels,[name]:({...preloadModels[name],isComplete:true})}}));
+			
+			const preloadedModels= Object.values(get().preloadModels).reduce((loaded, model) => {
+				return model.isComplete?loaded+1:loaded;
+			},0) 
+			set(({ preloading }) => ({ preloading: { ...preloading, filesLoaded: preloadedModels } }));
 			set(({ models, materials, textures }) => ({
 				models: { ...models, [name]: { scene, nodes, groups } },
 				materials: { ...materials, ...newMaterials },
 				textures: { ...textures, ...newTextures },
 			}));
+			
 		},
 		setPathname({ pathname }) {
 			set(({ router }) => ({ router: { ...router, pathname: pathname } }));

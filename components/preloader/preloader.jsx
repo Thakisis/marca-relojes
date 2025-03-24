@@ -18,7 +18,7 @@ export function Preloader(props) {
         lenis.start()
     }
     return (
-        <div className={`fixed  flex flex-col justify-center items-center inset-0  bg-black/100  z-50  ${true ? 'preload' : 'hidden'}`} onClick={clickPreload}>
+        <div className={`fixed  flex flex-col justify-center items-center inset-0  bg-black/10 pointer-events-none  z-50  ${true ? 'preload' : 'hidden'}`} onClick={clickPreload}>
             <div className='flex-1 flex justify-center items-center'>ASTERIUM</div>
             <div className='flex flex-col justify-center items-center'>
                 <WatchSVG />

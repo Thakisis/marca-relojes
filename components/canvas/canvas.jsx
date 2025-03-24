@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { CameraControls, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
+import { Backdrop, CameraControls, ContactShadows, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Environment } from '@react-three/drei';
 import useAsteriumStore from '@/store';
 import * as THREE from 'three';
@@ -28,12 +28,17 @@ function Canvas3d({ }) {
     return (
         <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }} onMouseMove={onMouseMove}
             onCreated={setCanvasReady}
-        >
 
+        >
+            <Backdrop castShadow floor={2} position={[0, -4, -5]} scale={[50, 20, 4]} >
+                <meshStandardMaterial color="#353540" envMapIntensity={0.1} />
+            </Backdrop>
+
+            <spotLight position={[5, 0, 5]} intensity={2.5} penumbra={1} angle={0.35} castShadow color="#0c8cbf" />
             <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={50} />
             <Daytona />
 
-
+            <ContactShadows position={[0, -0.485, 0]} scale={5} blur={1.5} far={1} />
 
             <Suspense fallback={null}>
 
@@ -42,7 +47,7 @@ function Canvas3d({ }) {
                 />
             </Suspense>
 
-
+            <CameraControls></CameraControls>
         </Canvas>
     );
 }
@@ -102,3 +107,4 @@ function Trail({ mouse }) {
         </line>
     );
 }
+
