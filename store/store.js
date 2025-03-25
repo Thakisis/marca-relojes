@@ -16,6 +16,7 @@ const useAsteriumStore = create((set, get) => ({
 		sizeLoaded: 0,
 		filesToLoad: 0,
 		filesLoaded: 0,
+		percent:0,
 		isComplete: false,
 	},
 	preloadModels: {},
@@ -73,6 +74,7 @@ const useAsteriumStore = create((set, get) => ({
 					filesToLoad: totalFiles,
 					filesLoaded: 0,
 					percent:0,
+					isComplete:false,
 				},
 			});
 
@@ -92,6 +94,7 @@ const useAsteriumStore = create((set, get) => ({
 		},
 		onProgressLoad({ loaded, size, name }) {
 			const preloadModels = get().preloadModels;
+			
 			const newPreloadModels = {
 				...preloadModels,
 				[name]: { ...preloadModels[name], loaded },
@@ -120,7 +123,7 @@ const useAsteriumStore = create((set, get) => ({
 			const preloadedModels= Object.values(get().preloadModels).reduce((loaded, model) => {
 				return model.isComplete?loaded+1:loaded;
 			},0) 
-			set(({ preloading }) => ({ preloading: { ...preloading, filesLoaded: preloadedModels } }));
+			set(({ preloading }) => ({ preloading: { ...preloading, filesLoaded: preloadedModels,isComplete:preloadedModels===preloading.filesToLoad } }));
 			set(({ models, materials, textures }) => ({
 				models: { ...models, [name]: { scene, nodes, groups } },
 				materials: { ...materials, ...newMaterials },
