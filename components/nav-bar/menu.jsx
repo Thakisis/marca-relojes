@@ -65,7 +65,7 @@ function LeftMenu({ type, background, textClass, imageTitle }) {
     if (type === "video")
         return (
             <>
-                <video className="absolute inset-0 object-contains bg-red-600 object-center" autoPlay loop muted>
+                <video className="absolute inset-0 object-contains object-center" autoPlay loop muted>
                     <source src={`/videos/${background}`} type="video/mp4" />
                 </video>
                 <div className={cn("relative text-center mt-2 z-10 w-full text-2xl font-medium", textClass)}>

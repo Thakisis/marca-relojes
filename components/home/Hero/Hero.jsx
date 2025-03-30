@@ -1,5 +1,6 @@
+
 import LogoAsterium from "@/components/logo-asterium";
-export function HeroIndex(props) {
+export function HeroIndex({page}) {
     return (
 
         <header className='grid grid-cols-12 w-full h-screen justify-between  outline-white/50 outline-[1px] -outline-offset-[3.5rem] overCanvas'>
@@ -15,7 +16,7 @@ export function HeroIndex(props) {
 
             </div>
             <div className='col-start-9 col-span-4  grid place-items-center text-white   h-full'>
-                texto2
+                pagina:{page}
             </div>
         </header>
 
