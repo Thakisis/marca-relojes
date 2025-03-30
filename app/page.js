@@ -1,4 +1,4 @@
-import { HeroIndex } from "@/components/Hero";
+import { HeroIndex } from "@/components/home/Hero";
 import { Section } from "@/components/section";
 import { Geist, Geist_Mono, Fraunces } from "./fonts";
 export default function Home() {

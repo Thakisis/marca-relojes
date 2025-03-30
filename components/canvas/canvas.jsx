@@ -1,21 +1,17 @@
 import React, { Suspense, useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Backdrop, CameraControls, ContactShadows, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
+import { Backdrop, CameraControls, ContactShadows, MeshTransmissionMaterial, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Environment } from '@react-three/drei';
 import useAsteriumStore from '@/store';
 import * as THREE from 'three';
-import { Daytona } from '../objects3d/daytona';
-
+import { SceneIndex } from '@/components/scenes/sceneIndex';
 function Canvas3d({ }) {
-    const ccRef = React.useRef(null);
-    const mouse = useRef(new THREE.Vector3());
+
+    //    const mouse = useRef(new THREE.Vector3());
     const setCanvasReady = useAsteriumStore((state) => state.Actions.setCanvasReady);
-    React.useEffect(() => {
-        const cc = ccRef.current;
+    const isComplete = useAsteriumStore((state) => state.preloading.isComplete);
 
-
-    }, []);
-    const onMouseMove = (event) => {
+    /*const onMouseMove = (event) => {
         const { clientX, clientY } = event;
         mouse.current.set(
             (clientX / window.innerWidth) * 2 - 1,
@@ -23,23 +19,18 @@ function Canvas3d({ }) {
             0
         );
     };
+    onMouseMove={onMouseMove}
+*/
+
 
 
     return (
-        <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }} onMouseMove={onMouseMove}
+        <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }}
             onCreated={setCanvasReady}
 
         >
-            <Backdrop castShadow floor={2} position={[0, -4, -5]} scale={[50, 20, 4]} >
-                <meshStandardMaterial color="#353540" envMapIntensity={0.1} />
-            </Backdrop>
-
-            <spotLight position={[5, 0, 5]} intensity={2.5} penumbra={1} angle={0.35} castShadow color="#0c8cbf" />
-            <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={50} />
-            <Daytona />
-
             <ContactShadows position={[0, -0.485, 0]} scale={5} blur={1.5} far={1} />
-
+            <Scenes />
             <Suspense fallback={null}>
 
                 <Environment files='/grey1.exr' environmentRotation={[0, Math.PI, Math.PI / 2]}
@@ -53,6 +44,22 @@ function Canvas3d({ }) {
 }
 
 export default Canvas3d;
+
+function Scenes() {
+    const isComplete = useAsteriumStore((state) => state.preloading.isComplete);
+    if (!isComplete) return null;
+    return (
+        <>
+            <SceneIndex />
+        </>
+    )
+
+}
+
+
+
+
+
 
 
 function Trail({ mouse }) {

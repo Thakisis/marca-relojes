@@ -5,12 +5,14 @@
 
 @body {
   scheme: dark;
+
+
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-outfit);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -129,9 +131,31 @@ body:has(.preload) {
     @apply bg-background text-foreground;
   }
 
-  .fraunces {
-    font-family: var(--font-fraunces);
+  .wittgenstein {
+    font-family: var(--font-wittgenstein);
     font-variation-settings: "soften" 0;
 
   }
+
+  .outfit {
+    font-family: var(--font-outfit);
+
+  }
+
+  .underCanvas {
+    position: relative;
+    z-index: 1;
+  }
+
+  .overCanvas {
+    position: relative;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .goldbg {
+    background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+      radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+  }
+
 }

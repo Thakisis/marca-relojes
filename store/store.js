@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { LoadModels, createLoaders } from "@/lib/three";
 import { createDiscardMaterial, prepareModels } from "@/lib/three";
-import { modelslist } from "@/lib/three/models";
+import { modelslist } from "@/components/objects3d/models";
 
 const useAsteriumStore = create((set, get) => ({
 	isInitialized: false,
@@ -29,6 +29,11 @@ const useAsteriumStore = create((set, get) => ({
 	},
 
 	Actions: {
+		addMaterial(name, material) {
+			set(({ materials }) => ({
+				materials: { ...materials, [name]: material },
+			}));
+		},
 		stopScroll() {
 			set(({ isScroll }) => ({ isScroll: !isScroll }));
 		},
@@ -65,7 +70,6 @@ const useAsteriumStore = create((set, get) => ({
 			}, {});
 
 			set({ preloadModels: modelsToLoad });
-			console.log(get().preloadModels);
 			set({
 				preloading: {
 					isLoading: true,
@@ -78,6 +82,7 @@ const useAsteriumStore = create((set, get) => ({
 				},
 			});
 
+
 			const { onProgressLoad, onCompleteLoad } = get().Actions;
 			await LoadModels({
 				loaders,
@@ -87,7 +92,8 @@ const useAsteriumStore = create((set, get) => ({
 				onCompleteLoad,
 			});
 			const { materials, textures, models } = get();
-			prepareModels({ models, materials, textures });
+			const {scene,gl,camera} = get().threeParams;
+			prepareModels({ models, materials, textures,scene,gl,camera });
 			set(({ preloading }) => ({
 				preloading: { ...preloading, isComplete: true },
 			}));
@@ -103,7 +109,7 @@ const useAsteriumStore = create((set, get) => ({
 				(total, { loaded }) => total + loaded,
 				0
 			);
-			
+			console.log(loaded,size,name,sizeLoaded)
 			
 			set({ preloadModels: newPreloadModels });
 			
