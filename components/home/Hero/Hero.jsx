@@ -8,7 +8,7 @@ export function HeroIndex({page}) {
 
                 <h1 className='flex flex-col justify-center items-center gap-5 text-white text-5xl  font-[200] wittgenstein '>
                     <LogoAsterium className='w-40 h-40 -translate-y-[2px] hidden' aria-hidden='true' />
-                    <div className="w-40 h-40 goldbg" style={{ maskImage: "url(/logoNav.svg)",maskSize:"contain",maskRepeat:"no-repeat", maskPosition:"center" }}>
+                    <div className="w-40 h-40 goldbg" style={{ maskImage: "url(/LogoNav.svg)",maskSize:"contain",maskRepeat:"no-repeat", maskPosition:"center" }}>
 
                     </div>
                     Asterium
