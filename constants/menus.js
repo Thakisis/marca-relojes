@@ -9,19 +9,19 @@ export const menus = [
 		links: [
 			{
 				title: "Ultimate Chronograph",
-				href: "/chronos-gt/#hash1",
+				href: "/#hash1",
 				description:
 					"A high-performance chronograph built for precision, durability, and timeless style.",
 			},
 			{
 				title: "Unmatched Precision",
-				href: "/chronos-gt/#hash2",
+				href: "/#hash2",
 				description:
 					"Engineered for those who demand accuracy and excellence in every second.",
 			},
 			{
 				title: "Built to Endure",
-				href: "/chronos-gt/#hash3",
+				href: "/#hash3",
 				description:
 					"A robust timepiece designed to withstand the test of time and adventure.",
 			},
