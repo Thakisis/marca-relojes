@@ -8,7 +8,7 @@ export const modelslist = {
 			{
 				name: "daytona",
 				file: "Daytona.glb",
-				size:1756588,
+				size: 3398280,
 				type: filetype.scene,
 			},
 			{

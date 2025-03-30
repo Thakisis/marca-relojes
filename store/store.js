@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { LoadModels, createLoaders } from "@/lib/three";
 import { createDiscardMaterial, prepareModels } from "@/lib/three";
-import { modelslist } from "@/components/objects3d/models";
+import { modelslist } from "@/constants/models";
 
 const useAsteriumStore = create((set, get) => ({
 	isInitialized: false,
@@ -16,7 +16,7 @@ const useAsteriumStore = create((set, get) => ({
 		sizeLoaded: 0,
 		filesToLoad: 0,
 		filesLoaded: 0,
-		percent:0,
+		percent: 0,
 		isComplete: false,
 	},
 	preloadModels: {},
@@ -77,11 +77,10 @@ const useAsteriumStore = create((set, get) => ({
 					sizeLoaded: 0,
 					filesToLoad: totalFiles,
 					filesLoaded: 0,
-					percent:0,
-					isComplete:false,
+					percent: 0,
+					isComplete: false,
 				},
 			});
-
 
 			const { onProgressLoad, onCompleteLoad } = get().Actions;
 			await LoadModels({
@@ -92,15 +91,15 @@ const useAsteriumStore = create((set, get) => ({
 				onCompleteLoad,
 			});
 			const { materials, textures, models } = get();
-			const {scene,gl,camera} = get().threeParams;
-			prepareModels({ models, materials, textures,scene,gl,camera });
+			const { scene, gl, camera } = get().threeParams;
+			prepareModels({ models, materials, textures, scene, gl, camera });
 			set(({ preloading }) => ({
 				preloading: { ...preloading, isComplete: true },
 			}));
 		},
 		onProgressLoad({ loaded, size, name }) {
 			const preloadModels = get().preloadModels;
-			
+
 			const newPreloadModels = {
 				...preloadModels,
 				[name]: { ...preloadModels[name], loaded },
@@ -109,12 +108,17 @@ const useAsteriumStore = create((set, get) => ({
 				(total, { loaded }) => total + loaded,
 				0
 			);
-			console.log(loaded,size,name,sizeLoaded)
-			
+			console.log(loaded, size, name, sizeLoaded);
+
 			set({ preloadModels: newPreloadModels });
-			
-			set(({ preloading }) => ({ preloading: { ...preloading, sizeLoaded,percent: Math.floor((sizeLoaded / preloading.sizeToLoad) * 100) } }));
-			
+
+			set(({ preloading }) => ({
+				preloading: {
+					...preloading,
+					sizeLoaded,
+					percent: Math.floor((sizeLoaded / preloading.sizeToLoad) * 100),
+				},
+			}));
 		},
 		onCompleteLoad({
 			name,
@@ -124,18 +128,31 @@ const useAsteriumStore = create((set, get) => ({
 			textures: newTextures,
 			materials: newMaterials,
 		}) {
-			set(({preloadModels})=> ({preloadModels:{...preloadModels,[name]:({...preloadModels[name],isComplete:true})}}));
-			
-			const preloadedModels= Object.values(get().preloadModels).reduce((loaded, model) => {
-				return model.isComplete?loaded+1:loaded;
-			},0) 
-			set(({ preloading }) => ({ preloading: { ...preloading, filesLoaded: preloadedModels,isComplete:preloadedModels===preloading.filesToLoad } }));
+			set(({ preloadModels }) => ({
+				preloadModels: {
+					...preloadModels,
+					[name]: { ...preloadModels[name], isComplete: true },
+				},
+			}));
+
+			const preloadedModels = Object.values(get().preloadModels).reduce(
+				(loaded, model) => {
+					return model.isComplete ? loaded + 1 : loaded;
+				},
+				0
+			);
+			set(({ preloading }) => ({
+				preloading: {
+					...preloading,
+					filesLoaded: preloadedModels,
+					isComplete: preloadedModels === preloading.filesToLoad,
+				},
+			}));
 			set(({ models, materials, textures }) => ({
 				models: { ...models, [name]: { scene, nodes, groups } },
 				materials: { ...materials, ...newMaterials },
 				textures: { ...textures, ...newTextures },
 			}));
-			
 		},
 		setPathname({ pathname }) {
 			set(({ router }) => ({ router: { ...router, pathname: pathname } }));
