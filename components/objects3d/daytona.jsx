@@ -18,6 +18,7 @@ const params = {
     transmissionResolutionScale: 1
 };
 
+
 export function Daytona(props) {
     const isComplete = useAsteriumStore((state) => state.preloading.isComplete);
     const models = useAsteriumStore((state) => state.models);
