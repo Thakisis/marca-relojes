@@ -59,7 +59,7 @@ const Contact = () => {
 	}, {});
 
 	return (
-		<main className="relative z-[99999]">
+		<main className="relative z-[99]">
 			<section
 				id="waitlist"
 				className="py-20 bg-[#121212] h-screen"
