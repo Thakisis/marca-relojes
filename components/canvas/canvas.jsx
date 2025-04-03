@@ -5,6 +5,7 @@ import { Environment } from '@react-three/drei';
 import useAsteriumStore from '@/store';
 import * as THREE from 'three';
 import { SceneIndex } from '@/components/scenes/sceneIndex';
+
 function Canvas3d({ }) {
 
     //    const mouse = useRef(new THREE.Vector3());
@@ -32,12 +33,13 @@ function Canvas3d({ }) {
             <ContactShadows position={[0, -0.485, 0]} scale={5} blur={1.5} far={1} />
             <Scenes />
             <Suspense fallback={null}>
-
+            
                 <Environment files='/grey1.exr' environmentRotation={[0, Math.PI, Math.PI / 2]}
                     environmentIntensity={1}
                 />
+                
             </Suspense>
-
+        
             <CameraControls></CameraControls>
         </Canvas>
     );

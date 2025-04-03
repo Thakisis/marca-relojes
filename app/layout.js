@@ -1,7 +1,8 @@
 import "./globals.css";
 import CanvasContainer from "@/components/canvas";
 import SmoothScrolling from "@/components/ui/SmoothScroll";
-import { geistSans, geistMono, wittgenstein,outfit } from "./fonts";
+import { wittgenstein,outfit } from "./fonts";
+import Footer from "@/components/footer";
 import { Preloader } from "@/components/preloader";
 import Navbar from "@/components/nav-bar/nav-bar";
 export const metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
 					<CanvasContainer />
 					{children}
 				</SmoothScrolling>
+				<Footer />
 			</body>
 		</html>
 	);
