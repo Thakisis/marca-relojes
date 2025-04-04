@@ -23,7 +23,10 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { sendForm } from "@/server/actions";
-
+export const metadata = {
+	title: "Contactar - Asterium ",
+	description: "Descubre nuestra coleccion de relojes de lujo",
+};
 const Contact = () => {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
