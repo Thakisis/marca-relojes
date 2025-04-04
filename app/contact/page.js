@@ -107,7 +107,7 @@ const Contact = () => {
 										)}
 										<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 											<FormField
-												name="firstName"
+												name="nombre"
 												control={form.control}
 												render={({ field }) => (
 													<FormItem>
@@ -124,7 +124,7 @@ const Contact = () => {
 												)}
 											/>
 											<FormField
-												name="lastName"
+												name="apellidos"
 												control={form.control}
 												render={({ field }) => (
 													<FormItem>
@@ -161,7 +161,7 @@ const Contact = () => {
 											)}
 										/>
 										<FormField
-											name="phone"
+											name="telefono"
 											control={form.control}
 											render={({ field }) => (
 												<FormItem>
@@ -179,7 +179,25 @@ const Contact = () => {
 											)}
 										/>
 										<FormField
-											name="privacyAccepted"
+											name="comentario"
+											control={form.control}
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Comentarios (Opcional)</FormLabel>
+													<FormControl>
+														<Textarea
+
+															{...field}
+
+															title=""
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											name="recibir notificaciones"
 											control={form.control}
 											render={({ field }) => (
 												<FormItem className="flex items-start space-x-2">
@@ -190,12 +208,13 @@ const Contact = () => {
 														title="Debes aceptar la política de privacidad"
 													/>
 													<FormLabel>
-														Acepto la Política de Privacidad
+														Acepto recibir notificaciones
 													</FormLabel>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
+
 										<Button type="submit">Unirse a la Lista de Espera</Button>
 									</form>
 								</Form>
